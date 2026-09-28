@@ -146,6 +146,7 @@ export default function RootLayout({
                 <li><a href="/arabic-letter-generator" className="hover:text-emerald-400 transition">আরবি মক্তব আমল দরখাস্ত</a></li>
                 <li><a href="/#rates" className="hover:text-emerald-400 transition">লাইভ রিয়াল রেমিট্যান্স রেট</a></li>
                 <li><a href="/law-academy" className="hover:text-emerald-400 transition">সৌদি শ্রম আইন একাডেমি</a></li>
+                <li><a href="/admin" className="text-slate-500 hover:text-emerald-400 transition flex items-center">🔐 অ্যাডমিন ও লিড পোর্টাল</a></li>
               </ul>
             </div>
 
@@ -154,8 +155,9 @@ export default function RootLayout({
               <p className="text-[11px] text-slate-500 leading-relaxed">
                 Probashi Hub একটি স্বাধীন তথ্য ও শিক্ষা প্ল্যাটফর্ম, কোনো সৌদি বা বাংলাদেশি সরকারি সংস্থা নয়। সকল তথ্য সৌদি শ্রম মন্ত্রণালয় (HRSD), জাওয়াযাত ও কিওয়ার অফিশিয়াল গেজেট অনুসারে সংগৃহীত।
               </p>
-              <div className="mt-4 pt-3 border-t border-slate-900 text-[10px] text-slate-600">
-                © {new Date().getFullYear()} Probashi Hub KSA. All rights reserved.
+              <div className="mt-4 pt-3 border-t border-slate-900 text-[10px] text-slate-600 flex items-center justify-between">
+                <span>© {new Date().getFullYear()} Probashi Hub KSA. All rights reserved.</span>
+                <a href="/admin" className="text-slate-600 hover:text-slate-400">Admin</a>
               </div>
             </div>
           </div>

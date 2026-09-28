@@ -21,6 +21,7 @@ import {
   UserCheck
 } from "lucide-react";
 import LeadModal from "@/components/LeadModal";
+import MonetizationBanner from "@/components/MonetizationBanner";
 
 interface ServiceDetailClientProps {
   problem: any;
@@ -288,6 +289,9 @@ export default function ServiceDetailClient({
           </a>
         </div>
       </div>
+
+      {/* MONETIZATION SPONSORED BANNER: LEGAL AID & LAW FIRM PARTNER */}
+      <MonetizationBanner type="legal_aid" />
 
       {/* Related Problems in same category */}
       {relatedProblems.length > 0 && (

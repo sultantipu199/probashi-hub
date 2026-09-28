@@ -18,6 +18,7 @@ endpoints = [
     'https://probashi-hub.vercel.app/urgent-sos',
     'https://probashi-hub.vercel.app/law-academy',
     'https://probashi-hub.vercel.app/arabic-letter-generator',
+    'https://probashi-hub.vercel.app/admin',
 ]
 
 # Add all 17 category pages

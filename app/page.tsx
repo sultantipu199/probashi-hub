@@ -22,6 +22,7 @@ import {
 import { CATEGORIES } from "@/data/categories";
 import problemsData from "@/data/problems.json";
 import cachedRates from "@/data/rates.json";
+import MonetizationBanner from "@/components/MonetizationBanner";
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -250,6 +251,11 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+ 
+      {/* MONETIZATION SPONSORED BANNER: CARGO & TRAVEL */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <MonetizationBanner type="cargo_travel" />
+      </div>
 
       {/* 4. 17 INTERACTIVE CATEGORY SELECTION CARDS */}
       <section id="categories" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
