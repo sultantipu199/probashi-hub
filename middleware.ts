@@ -3,13 +3,12 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const configuredFile = process.env.GOOGLE_VERIFICATION_FILENAME;
 
-  // Autonomously handle Google Search Console HTML verification file requests
-  // e.g. /google1a2b3c4d5e6f7g8h.html
-  const googleVerificationMatch = pathname.match(/^\/(google[a-zA-Z0-9_-]+\.html)$/i);
-  if (googleVerificationMatch) {
-    const filename = googleVerificationMatch[1];
-    return new NextResponse(`google-site-verification: ${filename}`, {
+  // Only respond 200 if the exact configured verification file is requested.
+  // Never wildcard-respond, as Google flags wildcard catch-alls as compromised/hacked sites.
+  if (configuredFile && pathname === `/${configuredFile}`) {
+    return new NextResponse(`google-site-verification: ${configuredFile}`, {
       status: 200,
       headers: {
         "Content-Type": "text/html; charset=utf-8",
@@ -23,12 +22,6 @@ export function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
-    /*
-     * Match all request paths except for the ones starting with:
-     * - _next/static (static files)
-     * - _next/image (image optimization files)
-     * - favicon.ico (favicon file)
-     */
     "/((?!_next/static|_next/image|favicon.ico).*)",
   ],
 };
