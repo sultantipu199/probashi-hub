@@ -63,7 +63,7 @@ export const metadata: Metadata = {
   },
   manifest: "/manifest.json",
   verification: {
-    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google_search_console_probashihub_2026",
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION || "google2b521bc0d95a7f90",
   },
 };
 

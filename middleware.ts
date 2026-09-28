@@ -3,12 +3,10 @@ import type { NextRequest } from "next/server";
 
 export function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
-  const configuredFile = process.env.GOOGLE_VERIFICATION_FILENAME;
 
-  // Only respond 200 if the exact configured verification file is requested.
-  // Never wildcard-respond, as Google flags wildcard catch-alls as compromised/hacked sites.
-  if (configuredFile && pathname === `/${configuredFile}`) {
-    return new NextResponse(`google-site-verification: ${configuredFile}`, {
+  // Specific Google Search Console verification file
+  if (pathname === "/google2b521bc0d95a7f90.html") {
+    return new NextResponse("google-site-verification: google2b521bc0d95a7f90.html", {
       status: 200,
       headers: {
         "Content-Type": "text/html; charset=utf-8",
