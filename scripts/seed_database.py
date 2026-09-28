@@ -2,7 +2,7 @@
 Probashi Hub (সৌদি প্রবাসী ওয়ান-স্টপ হাব)
 Database Seeding Script for Supabase & Local SQL Generator
 Reads data/problems.json, validates 50 records, and upserts into Supabase.
-Also writes a complete database/seeds/problems.sql file.
+Generates database/seeds/problems.sql and database/seeds/complete_seed.sql.
 """
 
 import json
@@ -10,17 +10,26 @@ import os
 import sys
 from pathlib import Path
 
+# Fix Windows console UTF-8 output
+if sys.platform == "win32":
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
+
 # Paths
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_PATH = ROOT_DIR / "data" / "problems.json"
-SQL_OUT_PATH = ROOT_DIR / "database" / "seeds" / "problems.sql"
+SEEDS_DIR = ROOT_DIR / "database" / "seeds"
+SQL_PROBLEMS_PATH = SEEDS_DIR / "problems.sql"
+SQL_COMPLETE_PATH = SEEDS_DIR / "complete_seed.sql"
 
 def escape_sql_str(value: str) -> str:
     if value is None:
         return "NULL"
     return "'" + str(value).replace("'", "''") + "'"
 
-def generate_sql_seeds(records: list) -> str:
+def generate_services_sql(records: list) -> str:
     sql_lines = [
         "-- ==============================================================================",
         "-- Probashi Hub: 50 Verified Saudi Expat Problem & Solution Seeds",
@@ -77,6 +86,40 @@ def generate_sql_seeds(records: list) -> str:
 
     return "\n".join(sql_lines)
 
+def build_complete_seed(services_sql: str) -> str:
+    parts = [
+        "-- ==============================================================================",
+        "-- Probashi Hub: COMPLETE MASTER PRODUCTION DATABASE SEED",
+        "-- Run this file in Supabase SQL Editor to populate all tables.",
+        "-- ==============================================================================\n",
+        services_sql,
+        "\n-- -----------------------------------------------------------------------------",
+        "-- 2. SEED LABOR LAW UPDATES",
+        "-- -----------------------------------------------------------------------------\n"
+    ]
+
+    labor_law_file = SEEDS_DIR / "labor_law_updates.sql"
+    if labor_law_file.exists():
+        with open(labor_law_file, "r", encoding="utf-8") as f:
+            parts.append(f.read())
+
+    parts.append(
+        "\n-- -----------------------------------------------------------------------------",
+    )
+    parts.append(
+        "-- 3. SEED VERIFIED PARTNERS (Cargo, Legal, Umrah, MISA)",
+    )
+    parts.append(
+        "-- -----------------------------------------------------------------------------\n"
+    )
+
+    partners_file = SEEDS_DIR / "partners.sql"
+    if partners_file.exists():
+        with open(partners_file, "r", encoding="utf-8") as f:
+            parts.append(f.read())
+
+    return "\n".join(parts)
+
 def sync_to_supabase(records: list):
     supabase_url = os.environ.get("NEXT_PUBLIC_SUPABASE_URL")
     supabase_key = os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
@@ -127,14 +170,21 @@ def main():
     print(f"Loaded {len(records)} problem datasets across {len(set(r['category_id'] for r in records))} categories.")
     assert len(records) >= 50, f"Expected 50 records, found {len(records)}"
 
-    # Generate SQL file
-    SQL_OUT_PATH.parent.mkdir(parents=True, exist_ok=True)
-    sql_content = generate_sql_seeds(records)
-    with open(SQL_OUT_PATH, "w", encoding="utf-8") as f:
-        f.write(sql_content)
-    print(f"[SUCCESS] Written SQL seeds to {SQL_OUT_PATH}")
+    SEEDS_DIR.mkdir(parents=True, exist_ok=True)
 
-    # Sync to Supabase if configured
+    # 1. Generate problems.sql
+    services_sql = generate_services_sql(records)
+    with open(SQL_PROBLEMS_PATH, "w", encoding="utf-8") as f:
+        f.write(services_sql)
+    print(f"[SUCCESS] Written SQL seeds to {SQL_PROBLEMS_PATH}")
+
+    # 2. Generate complete_seed.sql
+    complete_sql = build_complete_seed(services_sql)
+    with open(SQL_COMPLETE_PATH, "w", encoding="utf-8") as f:
+        f.write(complete_sql)
+    print(f"[SUCCESS] Written Complete Master SQL seeds to {SQL_COMPLETE_PATH}")
+
+    # 3. Sync to Supabase if credentials set
     sync_to_supabase(records)
 
 if __name__ == "__main__":
