@@ -143,6 +143,8 @@ export default function RootLayout({
               <h4 className="font-bold text-white text-sm mb-3">টুলস ও ক্যালকুলেটর</h4>
               <ul className="space-y-2">
                 <li><a href="/law-academy#calculator" className="hover:text-emerald-400 transition">গ্র্যাচুইটি ক্যালকুলেটর (ধারা ৮৪)</a></li>
+                <li><a href="/iqama-fee-calculator" className="hover:text-emerald-400 transition">ইকামা ও মক্তব আমল ফি ক্যালকুলেটর</a></li>
+                <li><a href="/driving-license-test" className="hover:text-emerald-400 transition">সৌদি ড্রাইভিং টেস্ট সিমুলেটর</a></li>
                 <li><a href="/arabic-letter-generator" className="hover:text-emerald-400 transition">আরবি মক্তব আমল দরখাস্ত</a></li>
                 <li><a href="/#rates" className="hover:text-emerald-400 transition">লাইভ রিয়াল রেমিট্যান্স রেট</a></li>
                 <li><a href="/law-academy" className="hover:text-emerald-400 transition">সৌদি শ্রম আইন একাডেমি</a></li>

@@ -17,7 +17,10 @@ import {
   Check,
   X,
   Layers,
-  ChevronDown
+  ChevronDown,
+  Mic,
+  Calculator,
+  Car
 } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
 import problemsData from "@/data/problems.json";
@@ -29,6 +32,37 @@ export default function HomePage() {
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
   const [ratesData, setRatesData] = useState<any>(cachedRates);
   const [calcSAR, setCalcSAR] = useState<number>(1000);
+  const [isListening, setIsListening] = useState(false);
+
+  // Web Speech API Voice Search
+  const startVoiceSearch = () => {
+    if (typeof window === "undefined") return;
+    const SpeechRec = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+    if (!SpeechRec) {
+      alert("আপনার ব্রাউজারে ভয়েস সার্চ সমর্থিত নয়। গুগল ক্রোম বা এজ ব্রাউজার ব্যবহার করুন।");
+      return;
+    }
+    try {
+      const recognition = new SpeechRec();
+      recognition.lang = "bn-BD";
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => setIsListening(true);
+      recognition.onend = () => setIsListening(false);
+      recognition.onerror = () => setIsListening(false);
+      recognition.onresult = (event: any) => {
+        const transcript = event.results[0][0].transcript;
+        if (transcript) {
+          setSearchQuery(transcript);
+          setSelectedCategory(null);
+        }
+      };
+      recognition.start();
+    } catch (err) {
+      setIsListening(false);
+    }
+  };
 
   useEffect(() => {
     async function fetchRates() {
@@ -138,17 +172,31 @@ export default function HomePage() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="সমস্যা খুঁজুন (যেমন: ইকামা, কিওয়া, হুরুব, বেতন বকেয়া, নাজম, ফাইনাল এক্সিট)..."
-                className="w-full bg-slate-900/90 border-2 border-emerald-600/50 rounded-2xl pl-12 pr-10 py-4 text-base text-white placeholder-slate-400 shadow-2xl focus:outline-none focus:border-emerald-400 transition"
+                placeholder="সমস্যা খুঁজুন বা মাইকে মুখে বলুন (যেমন: ইকামা, কিওয়া, বেতন বকেয়া)..."
+                className="w-full bg-slate-900/90 border-2 border-emerald-600/50 rounded-2xl pl-12 pr-24 py-4 text-base text-white placeholder-slate-400 shadow-2xl focus:outline-none focus:border-emerald-400 transition"
               />
-              {searchQuery && (
+              <div className="absolute right-3 flex items-center space-x-1.5">
+                {searchQuery && (
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="text-xs font-semibold text-slate-400 hover:text-white px-2 py-1 rounded-md"
+                  >
+                    মুছুন
+                  </button>
+                )}
                 <button
-                  onClick={() => setSearchQuery("")}
-                  className="absolute right-4 text-xs font-semibold text-slate-400 hover:text-white"
+                  type="button"
+                  onClick={startVoiceSearch}
+                  title="মুখে বলুন (ভয়েস সার্চ)"
+                  className={`p-2 rounded-xl transition ${
+                    isListening
+                      ? "bg-red-600 text-white animate-pulse"
+                      : "bg-slate-800 text-emerald-400 hover:bg-emerald-950 hover:text-emerald-300"
+                  }`}
                 >
-                  মুছুন
+                  <Mic className="w-4 h-4" />
                 </button>
-              )}
+              </div>
             </div>
 
             {/* Quick search tags */}
@@ -556,49 +604,98 @@ export default function HomePage() {
         )}
       </section>
 
-      {/* 6. PROACTIVE ACTION TILES */}
+      {/* 6. PROACTIVE ACTION TILES (4 CORE PILLARS) */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="mb-6">
+          <h2 className="text-xl sm:text-2xl font-bold text-white">জরুরি প্রবাস টুলস ও একাডেমি</h2>
+          <p className="text-xs text-slate-400">শ্রম আইন, মক্তব আমল সাদাদ ফি হিসাব, আরবি দরখাস্ত ও ড্রাইভিং লাইসেন্স প্র্যাকটিস</p>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {/* Tile 1: Labor Law Academy & Gratuity */}
-          <div className="bg-gradient-to-br from-slate-900 to-emerald-950/60 p-6 sm:p-8 rounded-3xl border border-emerald-600/40 shadow-xl flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-saudi-800 text-emerald-300 flex items-center justify-center border border-emerald-500/40">
-                <Scale className="w-6 h-6" />
+          <div className="bg-gradient-to-br from-slate-900 to-emerald-950/60 p-5 rounded-3xl border border-emerald-600/40 shadow-xl flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-saudi-800 text-emerald-300 flex items-center justify-center border border-emerald-500/40">
+                <Scale className="w-5 h-5" />
               </div>
-              <h3 className="text-2xl font-bold text-white">সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                চাকরি ছাড়লে বা কফিল তাড়িয়ে দিলে কত টাকা গ্র্যাচুইটি (ধারা ৮৪) ও ছুটির টাকা (ধারা ১১১) আইনত পাবেন? মিথ বনাম বাস্তব আইন সরাসরি হিসাব করুন।
+              <h3 className="text-lg font-bold text-white">শ্রম আইন ও গ্র্যাচুইটি</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                ধারা ৮৪ ও ৮৫ অনুযায়ী পদত্যাগ বনাম বরখাস্তে গ্র্যাচুইটির সঠিক অংক এবং ২.৫% প্রণোদনাসহ টাকায় হিসাব।
               </p>
             </div>
-            <div className="pt-6">
+            <div className="pt-4">
               <Link
                 href="/law-academy"
-                className="inline-flex items-center space-x-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition"
+                className="w-full inline-flex items-center justify-center space-x-1.5 bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-2 rounded-xl text-xs transition"
               >
-                <span>ক্যালকুলেটর ব্যবহার করুন</span>
-                <ArrowRight className="w-4 h-4" />
+                <span>ক্যালকুলেটর খুলুন</span>
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>
 
-          {/* Tile 2: Arabic Letter Generator */}
-          <div className="bg-gradient-to-br from-slate-900 to-amber-950/50 p-6 sm:p-8 rounded-3xl border border-amber-600/40 shadow-xl flex flex-col justify-between">
-            <div className="space-y-3">
-              <div className="w-12 h-12 rounded-2xl bg-amber-900/60 text-amber-300 flex items-center justify-center border border-amber-500/40">
-                <FileText className="w-6 h-6" />
+          {/* Tile 2: Iqama & Maktab Amal Fee Calculator */}
+          <div className="bg-gradient-to-br from-slate-900 to-teal-950/60 p-5 rounded-3xl border border-teal-600/40 shadow-xl flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-teal-900/60 text-teal-300 flex items-center justify-center border border-teal-500/40">
+                <Calculator className="w-5 h-5" />
               </div>
-              <h3 className="text-2xl font-bold text-white">আরবি দরখাস্ত মেকার (মক্তব আমল ও কাফালা)</h3>
-              <p className="text-sm text-slate-300 leading-relaxed">
-                কফিলকে নোটিশ, কাফালার অনুরোধপত্র কিংবা শ্রম আদালতে বকেয়া বেতন দাবির জন্য সৌদি সরকারের অফিশিয়াল ফরম্যাটের আরবি আবেদন তৈরি ও প্রিন্ট করুন।
+              <h3 className="text-lg font-bold text-white">ইকামা ও সাদাদ ফি</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                রুকসা আমল (সাদাদ ০১৩), জাওয়াযাত কার্ড ফি (০৯০) ও ডিপেন্ডেন্ট লেভির কিস্তি ও বিলম্ব জরিমানা হিসাব।
               </p>
             </div>
-            <div className="pt-6">
+            <div className="pt-4">
+              <Link
+                href="/iqama-fee-calculator"
+                className="w-full inline-flex items-center justify-center space-x-1.5 bg-teal-600 hover:bg-teal-500 text-white font-bold py-2 rounded-xl text-xs transition"
+              >
+                <span>ফি হিসাব করুন</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Tile 3: Dallah Driving License Test Quiz */}
+          <div className="bg-gradient-to-br from-slate-900 to-cyan-950/60 p-5 rounded-3xl border border-cyan-600/40 shadow-xl flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-cyan-900/60 text-cyan-300 flex items-center justify-center border border-cyan-500/40">
+                <Car className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white">দাল্লাহ ড্রাইভিং টেস্ট</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                সৌদি ট্রাফিক সাইন, সাহের ক্যামেরা ফাইন ও রোড রুলসের অফিশিয়াল কম্পিউটার পরীক্ষার প্রশ্নোত্তর প্র্যাকটিস।
+              </p>
+            </div>
+            <div className="pt-4">
+              <Link
+                href="/driving-license-test"
+                className="w-full inline-flex items-center justify-center space-x-1.5 bg-cyan-600 hover:bg-cyan-500 text-white font-bold py-2 rounded-xl text-xs transition"
+              >
+                <span>টেস্ট শুরু করুন</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Tile 4: Arabic Letter Generator */}
+          <div className="bg-gradient-to-br from-slate-900 to-amber-950/50 p-5 rounded-3xl border border-amber-600/40 shadow-xl flex flex-col justify-between">
+            <div className="space-y-2.5">
+              <div className="w-10 h-10 rounded-2xl bg-amber-900/60 text-amber-300 flex items-center justify-center border border-amber-500/40">
+                <FileText className="w-5 h-5" />
+              </div>
+              <h3 className="text-lg font-bold text-white">আরবি দরখাস্ত মেকার</h3>
+              <p className="text-xs text-slate-300 leading-relaxed">
+                মক্তব আমল, জাওয়াযাত ও ট্রাফিক পুলিশের জন্য ফরমাল আরবি আবেদনপত্র তৈরি, প্রিভিউ ও A4 সাইজে সরাসরি প্রিন্ট।
+              </p>
+            </div>
+            <div className="pt-4">
               <Link
                 href="/arabic-letter-generator"
-                className="inline-flex items-center space-x-2 bg-amber-600 hover:bg-amber-500 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition"
+                className="w-full inline-flex items-center justify-center space-x-1.5 bg-amber-600 hover:bg-amber-500 text-white font-bold py-2 rounded-xl text-xs transition"
               >
                 <span>দরখাস্ত তৈরি করুন</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
           </div>

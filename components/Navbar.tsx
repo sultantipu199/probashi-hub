@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { PhoneCall, ShieldAlert, FileText, Scale, Menu, X, ArrowUpRight, TrendingUp } from "lucide-react";
+import { PhoneCall, ShieldAlert, FileText, Scale, Menu, X, ArrowUpRight, TrendingUp, Calculator, Car } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -82,26 +82,40 @@ export default function Navbar() {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <div className="hidden md:flex items-center space-x-1 lg:space-x-2">
+            <div className="hidden md:flex items-center space-x-1 lg:space-x-1.5 text-xs">
               <Link
                 href="/"
-                className="px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
+                className="px-2.5 py-1.5 rounded-lg font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
               >
-                হোম (Home)
+                হোম
               </Link>
               <Link
                 href="/law-academy"
-                className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
+                className="flex items-center px-2.5 py-1.5 rounded-lg font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
               >
-                <Scale className="w-4 h-4 mr-1.5 text-emerald-400" />
-                শ্রম আইন ও গ্র্যাচুইটি
+                <Scale className="w-3.5 h-3.5 mr-1 text-emerald-400" />
+                শ্রম আইন
+              </Link>
+              <Link
+                href="/iqama-fee-calculator"
+                className="flex items-center px-2.5 py-1.5 rounded-lg font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
+              >
+                <Calculator className="w-3.5 h-3.5 mr-1 text-teal-400" />
+                ইকামা ফি
+              </Link>
+              <Link
+                href="/driving-license-test"
+                className="flex items-center px-2.5 py-1.5 rounded-lg font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
+              >
+                <Car className="w-3.5 h-3.5 mr-1 text-cyan-400" />
+                দাল্লাহ টেস্ট
               </Link>
               <Link
                 href="/arabic-letter-generator"
-                className="flex items-center px-3 py-2 rounded-lg text-sm font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
+                className="flex items-center px-2.5 py-1.5 rounded-lg font-medium text-slate-200 hover:text-white hover:bg-slate-800/60 transition"
               >
-                <FileText className="w-4 h-4 mr-1.5 text-amber-400" />
-                আরবি দরখাস্ত জেনারেটর
+                <FileText className="w-3.5 h-3.5 mr-1 text-amber-400" />
+                আরবি দরখাস্ত
               </Link>
             </div>
 
@@ -145,6 +159,22 @@ export default function Navbar() {
             >
               <Scale className="w-5 h-5 mr-2 text-emerald-400" />
               শ্রম আইন ও গ্র্যাচুইটি হিসাব
+            </Link>
+            <Link
+              href="/iqama-fee-calculator"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+            >
+              <Calculator className="w-5 h-5 mr-2 text-teal-400" />
+              ইকামা ও মক্তব আমল ফি
+            </Link>
+            <Link
+              href="/driving-license-test"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center px-3 py-2.5 rounded-lg text-base font-medium text-slate-200 hover:bg-slate-800"
+            >
+              <Car className="w-5 h-5 mr-2 text-cyan-400" />
+              সৌদি ড্রাইভিং টেস্ট সিমুলেটর
             </Link>
             <Link
               href="/arabic-letter-generator"

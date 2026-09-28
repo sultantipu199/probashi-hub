@@ -18,6 +18,8 @@ endpoints = [
     'https://probashi-hub.vercel.app/urgent-sos',
     'https://probashi-hub.vercel.app/law-academy',
     'https://probashi-hub.vercel.app/arabic-letter-generator',
+    'https://probashi-hub.vercel.app/iqama-fee-calculator',
+    'https://probashi-hub.vercel.app/driving-license-test',
     'https://probashi-hub.vercel.app/admin',
 ]
 
