@@ -1,5 +1,6 @@
 import { MetadataRoute } from "next";
 import problems from "@/data/problems.json";
+import { CATEGORIES } from "@/data/categories";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashi-hub.vercel.app";
@@ -31,6 +32,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
+  // Dynamic category routes for all 17 categories
+  const categoryRoutes: MetadataRoute.Sitemap = CATEGORIES.map((cat) => ({
+    url: `${baseUrl}/categories/${cat.id}`,
+    lastModified: new Date(),
+    changeFrequency: "weekly",
+    priority: 0.85,
+  }));
+
   // Dynamic programmatic SEO routes for all 50 verified problems
   const serviceRoutes: MetadataRoute.Sitemap = problems.map((problem) => ({
     url: `${baseUrl}/services/${problem.slug}`,
@@ -39,5 +48,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.8,
   }));
 
-  return [...staticRoutes, ...serviceRoutes];
+  return [...staticRoutes, ...categoryRoutes, ...serviceRoutes];
 }
+

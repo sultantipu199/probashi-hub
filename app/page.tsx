@@ -11,43 +11,17 @@ import {
   Scale,
   Sparkles,
   PhoneCall,
-  Briefcase,
-  Layers,
-  Car,
-  HeartPulse,
-  Landmark,
-  Plane,
-  Building2,
-  AlertOctagon,
-  Award,
   ExternalLink,
   ChevronRight,
   Clock,
-  Coins
+  Check,
+  X,
+  Layers,
+  ChevronDown
 } from "lucide-react";
+import { CATEGORIES } from "@/data/categories";
 import problemsData from "@/data/problems.json";
 import cachedRates from "@/data/rates.json";
-
-// 17 Structured Categories with Custom Icons
-const CATEGORIES = [
-  { id: 1, name: "ইকামা ও পরিচয়পত্র", en: "Iqama Services", icon: Award, color: "from-emerald-500 to-teal-700" },
-  { id: 2, name: "কিওয়া ও ইলেকট্রনিক চুক্তি", en: "Qiwa & Contracts", icon: FileText, color: "from-blue-500 to-cyan-700" },
-  { id: 3, name: "মক্তব আমল ও শ্রম বিরোধ", en: "Labor Disputes", icon: Scale, color: "from-indigo-500 to-purple-700" },
-  { id: 4, name: "কাফালা ও স্পন্সরশিপ", en: "Kafala Transfer", icon: Layers, color: "from-violet-500 to-fuchsia-700" },
-  { id: 5, name: "আবশির ও তাওয়াক্কালনা", en: "Absher & Tawakkalna", icon: Sparkles, color: "from-emerald-600 to-green-800" },
-  { id: 6, name: "ভিসা ও ছুটি (খুরুজ)", en: "Exit Re-Entry & Final Exit", icon: Plane, color: "from-amber-500 to-orange-700" },
-  { id: 7, name: "হুরুব ও স্ট্যাটাস জটিলতা", en: "Huroob Status", icon: AlertOctagon, color: "from-red-600 to-rose-800" },
-  { id: 8, name: "সার্ভিস বেনিফিট ও গ্র্যাচুইটি", en: "End of Service (EOSB)", icon: Landmark, color: "from-yellow-500 to-amber-700" },
-  { id: 9, name: "ট্রাফিক জরিমানা ও সাহের", en: "Traffic & Saher", icon: Car, color: "from-orange-500 to-red-700" },
-  { id: 10, name: "ড্রাইভিং লাইসেন্স ও নাজম", en: "Driving & Najm", icon: Car, color: "from-teal-500 to-emerald-700" },
-  { id: 11, name: "বৈধ রেমিট্যান্স ও ব্যাংকিং", en: "Remittance & Banking", icon: Coins, color: "from-emerald-500 to-green-700" },
-  { id: 12, name: "স্বাস্থ্য ও চিকিৎসা বীমা", en: "Health & CCHI", icon: HeartPulse, color: "from-rose-500 to-pink-700" },
-  { id: 13, name: "ওমরাহ ও হজ পারমিট", en: "Umrah & Nusuk", icon: Landmark, color: "from-purple-500 to-indigo-700" },
-  { id: 14, name: "আইনি সহায়তা ও পুলিশ", en: "Legal Aid & Police", icon: ShieldAlert, color: "from-red-500 to-rose-700" },
-  { id: 15, name: "দূতাবাস সেবা ও পাসপোর্ট", en: "Embassy & Passports", icon: Briefcase, color: "from-blue-600 to-indigo-800" },
-  { id: 16, name: "কার্গো ও ব্যাগেজ কাস্টমস", en: "Cargo & Customs", icon: Plane, color: "from-cyan-500 to-blue-700" },
-  { id: 17, name: "ব্যবসা ও MISA বিনিয়োগ", en: "Business & MISA", icon: Building2, color: "from-amber-600 to-yellow-800" },
-];
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -70,6 +44,21 @@ export default function HomePage() {
     fetchRates();
   }, []);
 
+  // Handle Category Click with Smooth Scroll to Showcase
+  const handleCategoryClick = (catId: number) => {
+    if (selectedCategory === catId) {
+      setSelectedCategory(null);
+    } else {
+      setSelectedCategory(catId);
+      setTimeout(() => {
+        const el = document.getElementById("category-showcase");
+        if (el) {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      }, 100);
+    }
+  };
+
   // Filter problems in real-time
   const filteredProblems = useMemo(() => {
     return problemsData.filter((item) => {
@@ -86,6 +75,15 @@ export default function HomePage() {
       return matchesCategory && (inTitle || inTitleEn || inSummary || inPortal || inCategory);
     });
   }, [searchQuery, selectedCategory]);
+
+  const activeCategoryObj = useMemo(() => {
+    return CATEGORIES.find((c) => c.id === selectedCategory);
+  }, [selectedCategory]);
+
+  const categoryProblems = useMemo(() => {
+    if (!selectedCategory) return [];
+    return problemsData.filter((p) => p.category_id === selectedCategory);
+  }, [selectedCategory]);
 
   return (
     <div className="space-y-12">
@@ -158,7 +156,10 @@ export default function HomePage() {
               {["৩ মাস বেতন বকেয়া", "ইকামা রিনিউ", "ধারা ৮৪ গ্র্যাচুইটি", "হুরুব মামলা", "ছুটির ভিসা"].map((tag) => (
                 <button
                   key={tag}
-                  onClick={() => setSearchQuery(tag)}
+                  onClick={() => {
+                    setSearchQuery(tag);
+                    setSelectedCategory(null);
+                  }}
                   className="bg-slate-800/80 hover:bg-emerald-900/50 hover:text-emerald-300 px-2.5 py-1 rounded-lg border border-slate-700/60 transition"
                 >
                   {tag}
@@ -250,23 +251,31 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* 4. 17 CATEGORY SELECTION CARDS */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6">
+      {/* 4. 17 INTERACTIVE CATEGORY SELECTION CARDS */}
+      <section id="categories" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white">সেবা ক্যাটাগরি সমূহ (১৭টি বিভাগ)</h2>
-            <p className="text-xs text-slate-400">আপনার প্রয়োজনীয় ক্যাটাগরি সিলেক্ট করে নির্দিষ্ট সমস্যাটি বেছে নিন</p>
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
+              <span>সেবা ক্যাটাগরি সমূহ (১৭টি বিভাগ)</span>
+              <span className="text-xs bg-emerald-900/80 text-emerald-300 font-bold px-2 py-0.5 rounded-full border border-emerald-700/50">
+                ট্যাপ করে সেবা খুলুন
+              </span>
+            </h2>
+            <p className="text-xs text-slate-400 mt-1">
+              যেকোনো ক্যাটাগরিতে ক্লিক করলে নিচে তাৎক্ষণিকভাবে সেই বিভাগের সকল সেবা ও নির্দেশিকা ওপেন হবে।
+            </p>
           </div>
           {selectedCategory !== null && (
             <button
               onClick={() => setSelectedCategory(null)}
-              className="text-xs font-semibold text-emerald-400 hover:underline"
+              className="inline-flex items-center space-x-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 bg-emerald-950/80 px-3 py-1.5 rounded-xl border border-emerald-800 transition"
             >
-              সব ক্যাটাগরি দেখুন
+              <span>✕ ক্যাটাগরি বন্ধ করুন (সকল সেবা)</span>
             </button>
           )}
         </div>
 
+        {/* 17 Category Cards Grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {CATEGORIES.map((cat) => {
             const Icon = cat.icon;
@@ -276,44 +285,211 @@ export default function HomePage() {
             return (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategory(isSelected ? null : cat.id)}
-                className={`p-3.5 rounded-2xl border text-left transition flex flex-col justify-between h-28 group relative overflow-hidden ${
+                onClick={() => handleCategoryClick(cat.id)}
+                className={`p-3.5 rounded-2xl border text-left transition-all duration-200 flex flex-col justify-between h-32 group relative overflow-hidden cursor-pointer active:scale-95 ${
                   isSelected
-                    ? "bg-emerald-950/80 border-emerald-400 shadow-lg shadow-emerald-950/50"
-                    : "bg-slate-900/60 border-slate-800 hover:border-slate-700 hover:bg-slate-800/50"
+                    ? "bg-emerald-950/95 border-emerald-400 ring-2 ring-emerald-400/80 shadow-xl shadow-emerald-950/60 scale-[1.02]"
+                    : "bg-slate-900/60 border-slate-800 hover:border-emerald-500/50 hover:bg-slate-800/60 hover:scale-[1.01]"
                 }`}
               >
                 <div className="flex items-center justify-between">
-                  <div className={`p-2 rounded-xl bg-gradient-to-tr ${cat.color} text-white shadow`}>
+                  <div className={`p-2 rounded-xl bg-gradient-to-tr ${cat.color} text-white shadow-md`}>
                     <Icon className="w-4 h-4" />
                   </div>
-                  <span className="text-[10px] font-bold text-slate-400 bg-slate-800/80 px-1.5 py-0.5 rounded-md">
-                    {count}টি
+                  <span
+                    className={`text-[10px] font-bold px-1.5 py-0.5 rounded-md transition ${
+                      isSelected
+                        ? "bg-emerald-400 text-slate-950 font-black flex items-center space-x-0.5"
+                        : "text-slate-400 bg-slate-800/80"
+                    }`}
+                  >
+                    {isSelected ? (
+                      <>
+                        <Check className="w-3 h-3 inline" />
+                        <span>ওপেন</span>
+                      </>
+                    ) : (
+                      `${count}টি সেবা`
+                    )}
                   </span>
                 </div>
                 <div>
-                  <div className="text-xs font-bold text-white group-hover:text-emerald-300 transition line-clamp-1">
+                  <div
+                    className={`text-xs font-bold transition line-clamp-1 ${
+                      isSelected ? "text-emerald-300 font-black" : "text-white group-hover:text-emerald-300"
+                    }`}
+                  >
                     {cat.name}
                   </div>
                   <div className="text-[10px] text-slate-400 line-clamp-1">{cat.en}</div>
+                </div>
+
+                <div className="text-[10px] font-semibold flex items-center justify-between pt-1 border-t border-slate-800/60">
+                  <span className={isSelected ? "text-emerald-300 font-bold" : "text-slate-500 group-hover:text-emerald-400"}>
+                    {isSelected ? "সেবা নিচে দেখুন ↓" : "ক্লিক করুন →"}
+                  </span>
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      isSelected ? "rotate-180 text-emerald-400" : "text-slate-600 group-hover:text-emerald-400"
+                    }`}
+                  />
                 </div>
               </button>
             );
           })}
         </div>
+
+        {/* 4.1 INSTANT INLINE CATEGORY SHOWCASE DRAWER */}
+        {selectedCategory && activeCategoryObj && (
+          <div
+            id="category-showcase"
+            className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-slate-900 via-emerald-950/80 to-slate-900 border-2 border-emerald-500 shadow-2xl shadow-emerald-950/70 transition-all duration-300 scroll-mt-24 space-y-6"
+          >
+            {/* Header of the Selected Category */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-emerald-800/40">
+              <div className="flex items-start sm:items-center space-x-4">
+                <div
+                  className={`p-3.5 rounded-2xl bg-gradient-to-tr ${activeCategoryObj.color} text-white shadow-xl shrink-0`}
+                >
+                  <activeCategoryObj.icon className="w-6 h-6 sm:w-7 sm:h-7" />
+                </div>
+                <div>
+                  <div className="flex flex-wrap items-center gap-2 mb-1">
+                    <span className="text-[11px] font-black text-emerald-300 bg-emerald-900/80 px-2.5 py-0.5 rounded-full border border-emerald-700/50">
+                      বিভাগ #{activeCategoryObj.id}
+                    </span>
+                    <span className="text-xs text-slate-300 font-semibold">
+                      মোট {categoryProblems.length}টি সমাধান অন্তর্ভুক্ত
+                    </span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-white">
+                    {activeCategoryObj.name}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">
+                    {activeCategoryObj.description}
+                  </p>
+                </div>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="flex items-center space-x-2 shrink-0">
+                <Link
+                  href={`/categories/${activeCategoryObj.id}`}
+                  className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs flex items-center shadow-lg transition"
+                >
+                  <span>আলাদা পেজে খুলুন</span>
+                  <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+                </Link>
+                <button
+                  onClick={() => setSelectedCategory(null)}
+                  className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white text-xs font-bold transition flex items-center space-x-1"
+                >
+                  <X className="w-3.5 h-3.5 mr-1" />
+                  <span>বন্ধ করুন</span>
+                </button>
+              </div>
+            </div>
+
+            {/* Services Cards within the Showcase */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {categoryProblems.map((prob) => (
+                <Link
+                  key={prob.slug}
+                  href={`/services/${prob.slug}`}
+                  className="p-5 rounded-2xl bg-slate-900/90 hover:bg-slate-850 border border-emerald-600/40 hover:border-emerald-400 transition group flex flex-col justify-between shadow-xl relative overflow-hidden"
+                >
+                  <div className="space-y-2.5">
+                    <div className="flex items-center justify-between">
+                      <span className="text-[10px] font-bold text-emerald-300 bg-emerald-950 px-2.5 py-0.5 rounded-lg border border-emerald-800/60">
+                        🏛️ {prob.official_portal.split("(")[0]}
+                      </span>
+                      {prob.urgent && (
+                        <span className="text-[10px] font-black text-red-200 bg-red-950 px-2 py-0.5 rounded-md border border-red-800 animate-pulse">
+                          জরুরি
+                        </span>
+                      )}
+                    </div>
+                    <h4 className="text-base font-bold text-white group-hover:text-emerald-300 transition line-clamp-2 leading-snug">
+                      {prob.title}
+                    </h4>
+                    <p className="text-xs text-slate-300 line-clamp-2 leading-relaxed">
+                      {prob.summary}
+                    </p>
+                  </div>
+
+                  <div className="pt-3 mt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+                    <span className="text-slate-400 text-[11px] flex items-center">
+                      <Clock className="w-3 h-3 mr-1 text-emerald-400 inline" />
+                      {prob.processing_time}
+                    </span>
+                    <span className="text-emerald-400 font-bold flex items-center group-hover:translate-x-1 transition">
+                      ধাপে ধাপে গাইড খুলুন <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    </span>
+                  </div>
+                </Link>
+              ))}
+            </div>
+          </div>
+        )}
       </section>
 
       {/* 5. FILTERED PROBLEMS DATASET (50 Saudi Expat Solutions) */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between mb-6">
+      <section id="services-list" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6 scroll-mt-24">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <h2 className="text-xl sm:text-2xl font-bold text-white">
-              {searchQuery ? `"${searchQuery}" এর সার্চ ফলাফল` : selectedCategory ? `${CATEGORIES.find(c => c.id === selectedCategory)?.name}` : "সকল সমস্যা ও সরকারি সমাধান (৫০টি গাইড)"}
+            <h2 className="text-xl sm:text-2xl font-bold text-white flex items-center space-x-2">
+              <span>
+                {searchQuery
+                  ? `"${searchQuery}" এর সার্চ ফলাফল`
+                  : activeCategoryObj
+                  ? `${activeCategoryObj.name} এর সেবা সমূহ`
+                  : "সকল সমস্যা ও সরকারি সমাধান (৫০টি গাইড)"}
+              </span>
             </h2>
-            <p className="text-xs text-slate-400">
+            <p className="text-xs text-slate-400 mt-1">
               মোট {filteredProblems.length}টি সমাধান প্রদর্শিত হচ্ছে
             </p>
           </div>
+
+          {/* Active Filter Indicator */}
+          {(selectedCategory !== null || searchQuery) && (
+            <div className="flex flex-wrap items-center gap-2">
+              <span className="text-xs text-slate-400">ফিল্টার:</span>
+              {activeCategoryObj && (
+                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-emerald-900/60 border border-emerald-600 text-emerald-300 text-xs font-bold">
+                  <span>{activeCategoryObj.name}</span>
+                  <button
+                    onClick={() => setSelectedCategory(null)}
+                    className="hover:text-white ml-1 p-0.5"
+                    title="ক্যাটাগরি ফিল্টার মুছুন"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+              {searchQuery && (
+                <span className="inline-flex items-center space-x-1 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 text-slate-200 text-xs font-bold">
+                  <span>খোঁজা: &ldquo;{searchQuery}&rdquo;</span>
+                  <button
+                    onClick={() => setSearchQuery("")}
+                    className="hover:text-white ml-1 p-0.5"
+                    title="সার্চ মুছুন"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </span>
+              )}
+              <button
+                onClick={() => {
+                  setSelectedCategory(null);
+                  setSearchQuery("");
+                }}
+                className="text-xs font-semibold text-emerald-400 hover:underline ml-1"
+              >
+                সব রিসেট করুন
+              </button>
+            </div>
+          )}
         </div>
 
         {filteredProblems.length === 0 ? (

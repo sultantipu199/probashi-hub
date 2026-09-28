@@ -20,6 +20,10 @@ endpoints = [
     'https://probashi-hub.vercel.app/arabic-letter-generator',
 ]
 
+# Add all 17 category pages
+for cat_id in range(1, 18):
+    endpoints.append(f"https://probashi-hub.vercel.app/categories/{cat_id}")
+
 # Add all 50 service pages
 for p in problems:
     endpoints.append(f"https://probashi-hub.vercel.app/services/{p['slug']}")
