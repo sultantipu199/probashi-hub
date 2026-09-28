@@ -27,7 +27,7 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
     };
   }
 
-  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashihub.com";
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashi-hub.vercel.app";
 
   return {
     title: `${problem.title} | Probashi Hub KSA`,

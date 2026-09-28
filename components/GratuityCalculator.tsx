@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import { Calculator, ArrowRight, CheckCircle2, AlertTriangle, Info, Sparkles, Building, Banknote } from "lucide-react";
 
 export default function GratuityCalculator() {
@@ -9,6 +9,25 @@ export default function GratuityCalculator() {
   const [months, setMonths] = useState<number>(4);
   const [separationType, setSeparationType] = useState<"termination" | "resignation" | "special">("resignation");
   const [exchangeRate, setExchangeRate] = useState<number>(32.78);
+
+  useEffect(() => {
+    async function loadRates() {
+      try {
+        const res = await fetch("/api/rates");
+        if (res.ok) {
+          const data = await res.json();
+          if (data?.base_market_rate) {
+            setExchangeRate(Number(data.base_market_rate));
+          } else if (data?.providers?.[0]?.rate_bdt) {
+            setExchangeRate(Number(data.providers[0].rate_bdt));
+          }
+        }
+      } catch (e) {
+        // Fallback
+      }
+    }
+    loadRates();
+  }, []);
 
   // Exact Saudi Labor Law Article 84 & 85 calculation
   const calculation = useMemo(() => {

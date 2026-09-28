@@ -26,6 +26,7 @@ import {
   Coins
 } from "lucide-react";
 import problemsData from "@/data/problems.json";
+import cachedRates from "@/data/rates.json";
 
 // 17 Structured Categories with Custom Icons
 const CATEGORIES = [
@@ -51,7 +52,7 @@ const CATEGORIES = [
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<number | null>(null);
-  const [ratesData, setRatesData] = useState<any>(null);
+  const [ratesData, setRatesData] = useState<any>(cachedRates);
   const [calcSAR, setCalcSAR] = useState<number>(1000);
 
   useEffect(() => {

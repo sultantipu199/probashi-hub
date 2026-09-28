@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import problems from "@/data/problems.json";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashihub.com";
+  const baseUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashi-hub.vercel.app";
 
   const staticRoutes: MetadataRoute.Sitemap = [
     {

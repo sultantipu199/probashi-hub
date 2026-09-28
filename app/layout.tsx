@@ -18,7 +18,7 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://probashihub.com"),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_APP_URL || "https://probashi-hub.vercel.app"),
   title: {
     default: "Probashi Hub | সৌদি প্রবাসী ওয়ান-স্টপ হাব (ইকামা, কাফালা ও শ্রম আইন)",
     template: "%s | Probashi Hub Saudi Arabia",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     title: "Probashi Hub | সৌদি প্রবাসী ওয়ান-স্টপ হাব",
     description:
       "সৌদি আরব প্রবাসীদের ৫০টি জটিল সমস্যার সরকারি সমাধান, শ্রম আইন ক্যালকুলেটর ও জরুরি হটলাইন।",
-    url: "https://probashihub.com",
+    url: "https://probashi-hub.vercel.app",
     siteName: "Probashi Hub",
     locale: "bn_BD",
     type: "website",
@@ -54,7 +54,12 @@ export const metadata: Metadata = {
       "ইকামা, কাফালা, কিওয়া ও শ্রম আইন সমাধান এক ক্লিকে। শতভাগ নির্ভরযোগ্য নির্দেশিকা।",
   },
   alternates: {
-    canonical: "https://probashihub.com",
+    canonical: "https://probashi-hub.vercel.app",
+  },
+  icons: {
+    icon: "/favicon.ico",
+    shortcut: "/favicon.ico",
+    apple: "/apple-touch-icon.png",
   },
   manifest: "/manifest.json",
 };
@@ -69,23 +74,23 @@ export default function RootLayout({
     "@graph": [
       {
         "@type": "WebSite",
-        "@id": "https://probashihub.com/#website",
-        "url": "https://probashihub.com",
+        "@id": "https://probashi-hub.vercel.app/#website",
+        "url": "https://probashi-hub.vercel.app",
         "name": "Probashi Hub - সৌদি প্রবাসী ওয়ান-স্টপ হাব",
         "description": "Comprehensive Saudi expat one-stop support portal for legal guidance, emergency SOS, and remittances.",
         "inLanguage": "bn-BD",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://probashihub.com/?q={search_term_string}",
+          "target": "https://probashi-hub.vercel.app/?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       },
       {
         "@type": "Organization",
-        "@id": "https://probashihub.com/#organization",
+        "@id": "https://probashi-hub.vercel.app/#organization",
         "name": "Probashi Hub",
-        "url": "https://probashihub.com",
-        "logo": "https://probashihub.com/icon-512x512.png",
+        "url": "https://probashi-hub.vercel.app",
+        "logo": "https://probashi-hub.vercel.app/icon.svg",
         "sameAs": [
           "https://facebook.com/probashihub",
           "https://youtube.com/@probashihub"

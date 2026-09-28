@@ -73,8 +73,9 @@ export default function ServiceDetailClient({
   };
 
   const getDirectWhatsAppUrl = () => {
+    const origin = typeof window !== "undefined" ? window.location.origin : "https://probashi-hub.vercel.app";
     const text = encodeURIComponent(
-      `আসসালামু আলাইকুম, আমি Probashi Hub থেকে আসছি।\nসমস্যা: ${problem.title}\nলিঙ্ক: https://probashihub.com/services/${problem.slug}\nআমাকে জরুরিভাবে আইনি/পরামর্শ সহায়তা দিন।`
+      `আসসালামু আলাইকুম, আমি Probashi Hub থেকে আসছি।\nসমস্যা: ${problem.title}\nলিঙ্ক: ${origin}/services/${problem.slug}\nআমাকে জরুরিভাবে আইনি/পরামর্শ সহায়তা দিন।`
     );
     const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || "966500000000";
     return `https://wa.me/${whatsappNumber}?text=${text}`;
