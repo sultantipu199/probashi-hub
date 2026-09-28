@@ -1,0 +1,67 @@
+{
+  "base_market_rate": 32.78,
+  "gov_incentive_percent": 2.5,
+  "last_updated": "2026-09-28 08:50 AM UTC",
+  "providers": [
+    {
+      "provider_name": "Urpay (Al Rajhi Digital)",
+      "provider_code": "urpay",
+      "rate_bdt": 32.43,
+      "fee_sar": 15.0,
+      "transfer_speed": "তাৎক্ষণিক (Instant via bKash / Account)",
+      "incentive_percent": 2.5,
+      "is_best_rate": false,
+      "scraped_at": "2026-09-28T08:50:32.024190+00:00"
+    },
+    {
+      "provider_name": "STC Pay (Western Union)",
+      "provider_code": "stc_pay",
+      "rate_bdt": 32.5,
+      "fee_sar": 17.25,
+      "transfer_speed": "১০ মিনিট (Instant Wallet Transfer)",
+      "incentive_percent": 2.5,
+      "is_best_rate": false,
+      "scraped_at": "2026-09-28T08:50:32.024224+00:00"
+    },
+    {
+      "provider_name": "SNB QuickPay (NCB)",
+      "provider_code": "snb_quickpay",
+      "rate_bdt": 32.63,
+      "fee_sar": 20.0,
+      "transfer_speed": "২ থেকে ৪ ঘণ্টা (Bank Account Credit)",
+      "incentive_percent": 2.5,
+      "is_best_rate": false,
+      "scraped_at": "2026-09-28T08:50:32.024236+00:00"
+    },
+    {
+      "provider_name": "Al Rajhi Tahweel",
+      "provider_code": "tahweel_rajhi",
+      "rate_bdt": 32.58,
+      "fee_sar": 18.0,
+      "transfer_speed": "তাৎক্ষণিক ক্যাশ পিকআপ ও ব্যাংক",
+      "incentive_percent": 2.5,
+      "is_best_rate": false,
+      "scraped_at": "2026-09-28T08:50:32.024244+00:00"
+    },
+    {
+      "provider_name": "Mobily Pay",
+      "provider_code": "mobily_pay",
+      "rate_bdt": 32.48,
+      "fee_sar": 15.0,
+      "transfer_speed": "তাৎক্ষণিক (Instant bKash/Nagad)",
+      "incentive_percent": 2.5,
+      "is_best_rate": false,
+      "scraped_at": "2026-09-28T08:50:32.024252+00:00"
+    },
+    {
+      "provider_name": "Enjaz Bank (Bank Albilad)",
+      "provider_code": "enjaz",
+      "rate_bdt": 32.68,
+      "fee_sar": 22.0,
+      "transfer_speed": "একই দিনে ব্যাংক ডিপোজিট",
+      "incentive_percent": 2.5,
+      "is_best_rate": true,
+      "scraped_at": "2026-09-28T08:50:32.024260+00:00"
+    }
+  ]
+}
