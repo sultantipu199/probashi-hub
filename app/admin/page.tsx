@@ -19,7 +19,8 @@ import {
   ArrowRight,
   TrendingUp,
   FileSpreadsheet,
-  Settings
+  Settings,
+  Globe
 } from "lucide-react";
 
 interface Lead {
@@ -284,6 +285,77 @@ export default function AdminDashboardPage() {
           </div>
           <div className="text-3xl font-black text-emerald-300">{stats.converted}</div>
           <div className="text-[10px] text-emerald-400/70 mt-1">পার্টনার বা কেস সমাধান</div>
+        </div>
+      </div>
+
+      {/* Google Search Console & SEO Automation Card */}
+      <div className="bg-gradient-to-r from-slate-900 via-slate-900 to-emerald-950/40 border border-slate-800 hover:border-emerald-500/40 transition-all rounded-3xl p-6 shadow-xl space-y-4">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div className="flex items-center space-x-3">
+            <div className="w-10 h-10 rounded-2xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400">
+              <Globe className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="flex items-center space-x-2">
+                <h2 className="text-base font-bold text-white">Google Search Console & SEO কানেকশন</h2>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-950 text-emerald-300 border border-emerald-700/60">
+                  <CheckCircle2 className="w-3 h-3 mr-1" />
+                  ভেরিফিকেশন রেডি
+                </span>
+              </div>
+              <p className="text-xs text-slate-400 mt-0.5">
+                লাইভ ডোমেন <code className="text-emerald-400 bg-slate-950 px-1.5 py-0.5 rounded font-mono">https://probashi-hub.vercel.app</code> গুগল কনসোলে ১-ক্লিকে ভেরিফাই করুন।
+              </p>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-2">
+            <a
+              href="https://search.google.com/search-console/welcome?hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition shadow-lg shadow-emerald-950/40"
+            >
+              <span>গুগল কনসোল ওপেন করুন</span>
+              <ExternalLink className="w-3.5 h-3.5 ml-1.5" />
+            </a>
+            <a
+              href="/sitemap.xml"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition"
+            >
+              <span>Sitemap (83 URLs)</span>
+              <ExternalLink className="w-3 h-3 ml-1" />
+            </a>
+            <a
+              href="/robots.txt"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center px-3 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-semibold border border-slate-700 transition"
+            >
+              <span>Robots.txt</span>
+              <ExternalLink className="w-3 h-3 ml-1" />
+            </a>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2 text-xs">
+          <div className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl">
+            <span className="text-slate-400 block mb-1 font-medium">১. অটো ফাইল ভেরিফিকেশন (HTML File):</span>
+            <span className="text-emerald-400 font-semibold font-mono text-[11px]">Dynamic /google*.html সক্রিয়</span>
+            <p className="text-[10px] text-slate-500 mt-1">Google Console-এ 'HTML file' অপশন রেখে সরাসরি Verify বাটনে ক্লিক করুন।</p>
+          </div>
+          <div className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl">
+            <span className="text-slate-400 block mb-1 font-medium">২. HTML Meta Tag ভেরিফিকেশন:</span>
+            <span className="text-emerald-400 font-semibold font-mono text-[11px]">&lt;meta google-site-verification&gt;</span>
+            <p className="text-[10px] text-slate-500 mt-1">সব পেজের &lt;head&gt; ট্যাগে ভেরিফিকেশন কোড সক্রিয় করা আছে।</p>
+          </div>
+          <div className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl">
+            <span className="text-slate-400 block mb-1 font-medium">৩. সাইটম্যাপ ইনডেক্সিং:</span>
+            <span className="text-slate-300 font-mono text-[11px]">https://probashi-hub.vercel.app/sitemap.xml</span>
+            <p className="text-[10px] text-slate-500 mt-1">ভেরিফিকেশনের পর 'Sitemaps' মেনুতে গিয়ে sitemap.xml সাবমিট করুন।</p>
+          </div>
         </div>
       </div>
 
