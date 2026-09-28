@@ -64,9 +64,59 @@ export default function CategoryDetailPage({ params }: CategoryPageProps) {
 
   const categoryProblems = problemsData.filter((p) => p.category_id === categoryId);
   const Icon = category.icon;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashi-hub.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "CollectionPage",
+        name: `${category.name} (${category.en}) - Probashi Hub`,
+        description: category.description,
+        url: `${appUrl}/categories/${category.id}`,
+        mainEntity: {
+          "@type": "ItemList",
+          numberOfItems: categoryProblems.length,
+          itemListElement: categoryProblems.map((p, idx) => ({
+            "@type": "ListItem",
+            position: idx + 1,
+            url: `${appUrl}/services/${p.slug}`,
+            name: p.title,
+          })),
+        },
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "হোম",
+            item: appUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: "ক্যাটাগরি",
+            item: `${appUrl}/#categories`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: category.name,
+            item: `${appUrl}/categories/${category.id}`,
+          },
+        ],
+      },
+    ],
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Breadcrumb Navigation */}
       <nav className="flex items-center space-x-2 text-xs text-slate-400">
         <Link href="/" className="hover:text-emerald-400 transition">

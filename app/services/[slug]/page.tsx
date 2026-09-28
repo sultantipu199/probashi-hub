@@ -64,5 +64,96 @@ export default function ServicePage({ params }: ServicePageProps) {
     .filter((p) => p.category_id === problem.category_id && p.slug !== problem.slug)
     .slice(0, 3);
 
-  return <ServiceDetailClient problem={problem} relatedProblems={relatedProblems} />;
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL || "https://probashi-hub.vercel.app";
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "HowTo",
+        name: problem.title,
+        description: problem.summary,
+        step: problem.steps.map((s, idx) => ({
+          "@type": "HowToStep",
+          position: idx + 1,
+          name: `ধাপ ${idx + 1}`,
+          text: s,
+        })),
+        supply: problem.required_documents.map((doc) => ({
+          "@type": "HowToSupply",
+          name: doc,
+        })),
+      },
+      {
+        "@type": "FAQPage",
+        mainEntity: [
+          {
+            "@type": "Question",
+            name: `${problem.title} এর নিয়ম কী?`,
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: `${problem.summary} অফিসিয়াল পোর্টাল: ${problem.official_portal}`,
+            },
+          },
+          {
+            "@type": "Question",
+            name: "এই সেবার জন্য কী কী কাগজপত্র বা ডকুমেন্ট প্রয়োজন?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: problem.required_documents.join(", "),
+            },
+          },
+          {
+            "@type": "Question",
+            name: "অফিসিয়াল সরকারি ফি এবং প্রসেসিং সময় কত?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: `ফি: ${problem.official_fees_sar} | সময়: ${problem.processing_time} | পোর্টাল: ${problem.official_portal}`,
+            },
+          },
+          {
+            "@type": "Question",
+            name: "প্রবাসীদের জন্য বিশেষ সতর্কতা বা রেড ফ্ল্যাগ কী?",
+            acceptedAnswer: {
+              "@type": "Answer",
+              text: problem.scam_warnings,
+            },
+          },
+        ],
+      },
+      {
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          {
+            "@type": "ListItem",
+            position: 1,
+            name: "হোম",
+            item: appUrl,
+          },
+          {
+            "@type": "ListItem",
+            position: 2,
+            name: problem.category_name,
+            item: `${appUrl}/categories/${problem.category_id}`,
+          },
+          {
+            "@type": "ListItem",
+            position: 3,
+            name: problem.title,
+            item: `${appUrl}/services/${problem.slug}`,
+          },
+        ],
+      },
+    ],
+  };
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <ServiceDetailClient problem={problem} relatedProblems={relatedProblems} />
+    </>
+  );
 }
