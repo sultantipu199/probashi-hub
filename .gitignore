@@ -4,6 +4,9 @@
 .pnp.js
 .yarn/install-state.gz
 
+# Local GitHub Actions cache
+.github/
+
 # Next.js build output
 /.next/
 /out/
