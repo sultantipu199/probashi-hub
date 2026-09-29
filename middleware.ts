@@ -5,7 +5,12 @@ export function middleware(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
 
   // Defense 1: Block suspicious Path Traversal, SQLi, and Script injection probes
-  const rawUrl = `${pathname}${search}`.toLowerCase();
+  let rawUrl = "";
+  try {
+    rawUrl = decodeURIComponent(request.url).toLowerCase();
+  } catch (e) {
+    rawUrl = request.url.toLowerCase();
+  }
   const dangerousPatterns = [
     "../",
     "..\\",
