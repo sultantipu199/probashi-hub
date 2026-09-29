@@ -240,10 +240,16 @@ export default function RootLayout({
             </div>
 
             <div>
-              <h4 className="font-bold text-white text-sm mb-3">আইনি ডিসক্লেইমার</h4>
-              <p className="text-[11px] text-slate-500 leading-relaxed">
-                Probashi Hub একটি স্বাধীন তথ্য ও শিক্ষা প্ল্যাটফর্ম, কোনো সৌদি বা বাংলাদেশি সরকারি সংস্থা নয়। সকল তথ্য সৌদি শ্রম মন্ত্রণালয় (HRSD), জাওয়াযাত ও কিওয়ার অফিশিয়াল গেজেট অনুসারে সংগৃহীত।
+              <h4 className="font-bold text-white text-sm mb-3">আইনি ও পলিসি</h4>
+              <p className="text-[11px] text-slate-500 leading-relaxed mb-3">
+                Probashi Hub একটি স্বাধীন তথ্য ও শিক্ষা প্ল্যাটফর্ম, কোনো সৌদি বা বাংলাদেশি সরকারি সংস্থা নয়।
               </p>
+              <ul className="space-y-1.5 text-[11px] text-slate-400">
+                <li><a href="/about" className="hover:text-emerald-400 transition">আমাদের সম্পর্কে (About Us)</a></li>
+                <li><a href="/contact" className="hover:text-emerald-400 transition">যোগাযোগ ও সহায়তা (Contact Us)</a></li>
+                <li><a href="/privacy" className="hover:text-emerald-400 transition">গোপনীয়তা নীতি (Privacy Policy)</a></li>
+                <li><a href="/terms" className="hover:text-emerald-400 transition">ব্যবহারের শর্তাবলী (Terms of Service)</a></li>
+              </ul>
               <div className="mt-4 pt-3 border-t border-slate-900 text-[10px] text-slate-600 flex items-center justify-between">
                 <span>© {new Date().getFullYear()} Probashi Hub KSA. All rights reserved.</span>
                 <a href="/admin" className="text-slate-600 hover:text-slate-400">Admin</a>
