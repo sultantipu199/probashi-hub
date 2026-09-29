@@ -181,6 +181,11 @@ export default function RootLayout({
   return (
     <html lang="bn" className={inter.variable}>
       <head>
+        <script
+          async
+          src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5913679984174223"
+          crossOrigin="anonymous"
+        />
         <GoogleAdSense />
         <link
           rel="alternate"
