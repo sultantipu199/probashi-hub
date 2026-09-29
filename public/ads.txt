@@ -4,7 +4,7 @@
 # ==============================================================================
 
 # Google AdSense
-google.com, pub-4638201948291039, DIRECT, f08c47fec0942fa0
+google.com, pub-5913679984174223, DIRECT, f08c47fec0942fa0
 
 # Google Ad Manager / DoubleClick
-google.com, pub-4638201948291039, RESELLER, f08c47fec0942fa0
+google.com, pub-5913679984174223, RESELLER, f08c47fec0942fa0

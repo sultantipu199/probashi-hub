@@ -8,7 +8,7 @@ interface GoogleAdSenseProps {
 }
 
 export default function GoogleAdSense({
-  clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-4638201948291039",
+  clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-5913679984174223",
 }: GoogleAdSenseProps) {
   if (!clientId) return null;
 
@@ -45,7 +45,7 @@ export function AdSenseUnit({
     }
   }, []);
 
-  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-4638201948291039";
+  const clientId = process.env.NEXT_PUBLIC_ADSENSE_CLIENT_ID || "ca-pub-5913679984174223";
 
   return (
     <div className={`overflow-hidden rounded-2xl bg-slate-900/60 border border-slate-800 text-center my-4 p-2 ${className}`}>
