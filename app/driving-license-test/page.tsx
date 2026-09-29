@@ -16,6 +16,7 @@ import {
   Sparkles,
   HelpCircle
 } from "lucide-react";
+import MonetizationBanner from "@/components/MonetizationBanner";
 
 interface Question {
   id: number;
@@ -443,6 +444,9 @@ export default function DrivingLicenseTestPage() {
           </div>
         </div>
       )}
+
+      {/* MONETIZATION SPONSORED BANNER: CAR INSURANCE & DRIVING SCHOOL */}
+      <MonetizationBanner type="car_insurance" className="mt-8" />
     </div>
   );
 }

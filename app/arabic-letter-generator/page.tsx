@@ -4,6 +4,7 @@ import React, { useState, useMemo } from "react";
 import Link from "next/link";
 import { FileText, ArrowLeft, Sparkles, Printer, Copy, Check, FileCheck, Info } from "lucide-react";
 import ArabicLetterPreview from "@/components/ArabicLetterPreview";
+import MonetizationBanner from "@/components/MonetizationBanner";
 
 const LETTER_TEMPLATES = [
   {
@@ -273,6 +274,9 @@ export default function ArabicLetterGeneratorPage() {
           />
         </div>
       </div>
+
+      {/* MONETIZATION SPONSORED BANNER: LEGAL AID & LAW FIRM */}
+      <MonetizationBanner type="legal_aid" className="mt-8" />
     </div>
   );
 }

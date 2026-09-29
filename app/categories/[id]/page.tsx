@@ -15,6 +15,7 @@ import {
 } from "lucide-react";
 import { CATEGORIES } from "@/data/categories";
 import problemsData from "@/data/problems.json";
+import MonetizationBanner from "@/components/MonetizationBanner";
 
 interface CategoryPageProps {
   params: {
@@ -270,6 +271,19 @@ export default function CategoryDetailPage({ params }: CategoryPageProps) {
           ))}
         </div>
       </section>
+
+      {/* Contextual Category Sponsored Banner */}
+      <MonetizationBanner
+        type={
+          categoryId === 2 || categoryId === 4
+            ? "legal_aid"
+            : categoryId === 6
+            ? "car_insurance"
+            : categoryId === 13
+            ? "misa_business"
+            : "cargo_travel"
+        }
+      />
 
       {/* Quick Navigation to Other Categories */}
       <section className="pt-8 border-t border-slate-800 space-y-4">

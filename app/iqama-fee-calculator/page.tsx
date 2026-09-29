@@ -18,6 +18,7 @@ import {
   Sparkles,
   HelpCircle
 } from "lucide-react";
+import MonetizationBanner from "@/components/MonetizationBanner";
 
 export default function IqamaFeeCalculatorPage() {
   const [workerType, setWorkerType] = useState<"commercial_excess" | "commercial_equal" | "small_entity" | "domestic">("commercial_excess");
@@ -350,6 +351,11 @@ export default function IqamaFeeCalculatorPage() {
               সৌদি শ্রম আইনের ৪০ নং অনুচ্ছেদের ১ উপধারা অনুযায়ী, শ্রমিকের ইকামা নবায়ন, রুকসা আমল ও স্পনসরশিপ ট্রান্সফারের সরকারি ফি বহন করার সম্পূর্ণ দায়িত্ব <strong>নিয়োগকর্তা বা কফিলের</strong>। শ্রমিককে নিজ পকেট থেকে লেভি ফি পরিশোধ করতে বাধ্য করা আইনত দণ্ডনীয়।
             </p>
           </div>
+        </div>
+
+        {/* MONETIZATION SPONSORED BANNER: LEGAL AID & SPONSORSHIP */}
+        <div className="pt-4">
+          <MonetizationBanner type="legal_aid" />
         </div>
       </div>
     </div>

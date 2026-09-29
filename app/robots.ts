@@ -25,6 +25,7 @@ export default function robots(): MetadataRoute.Robots {
           "/arabic-letter-generator",
           "/iqama-fee-calculator",
           "/driving-license-test",
+          "/advertise",
           "/sitemap.xml",
         ],
         disallow: [

@@ -1,0 +1,10 @@
+# ==============================================================================
+# Probashi Hub (সৌদি প্রবাসী ওয়ান-স্টপ হাব) - Authorized Digital Sellers (ads.txt)
+# IAB Tech Lab Standard specification for programmatic ad verification
+# ==============================================================================
+
+# Google AdSense
+google.com, pub-4638201948291039, DIRECT, f08c47fec0942fa0
+
+# Google Ad Manager / DoubleClick
+google.com, pub-4638201948291039, RESELLER, f08c47fec0942fa0

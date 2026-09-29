@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 import MobileDock from "@/components/MobileDock";
+import GoogleAdSense from "@/components/GoogleAdSense";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -180,6 +181,7 @@ export default function RootLayout({
   return (
     <html lang="bn" className={inter.variable}>
       <head>
+        <GoogleAdSense />
         <link
           rel="alternate"
           type="application/rss+xml"
@@ -232,6 +234,7 @@ export default function RootLayout({
                 <li><a href="/arabic-letter-generator" className="hover:text-emerald-400 transition">আরবি মক্তব আমল দরখাস্ত</a></li>
                 <li><a href="/#rates" className="hover:text-emerald-400 transition">লাইভ রিয়াল রেমিট্যান্স রেট</a></li>
                 <li><a href="/law-academy" className="hover:text-emerald-400 transition">সৌদি শ্রম আইন একাডেমি</a></li>
+                <li><a href="/advertise" className="text-amber-400 hover:text-amber-300 font-bold transition flex items-center">📢 বিজ্ঞাপন ও পার্টনারশিপ</a></li>
                 <li><a href="/admin" className="text-slate-500 hover:text-emerald-400 transition flex items-center">🔐 অ্যাডমিন ও লিড পোর্টাল</a></li>
               </ul>
             </div>
