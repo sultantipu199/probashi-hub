@@ -40,51 +40,86 @@ interface Lead {
 
 export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [adminToken, setAdminToken] = useState("");
   const [pinInput, setPinInput] = useState("");
   const [pinError, setPinError] = useState("");
   const [leads, setLeads] = useState<Lead[]>([]);
   const [loading, setLoading] = useState(false);
+  const [submittingPin, setSubmittingPin] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   // Check saved authentication on mount
   useEffect(() => {
-    const savedAuth = localStorage.getItem("probashi_admin_auth");
-    if (savedAuth === "true") {
+    const savedToken = sessionStorage.getItem("probashi_admin_token");
+    if (savedToken) {
+      setAdminToken(savedToken);
       setIsAuthenticated(true);
-      fetchLeads();
+      fetchLeads(savedToken);
     }
   }, []);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Default PIN: 1971 or admin123
-    if (pinInput === "1971" || pinInput === "admin123" || pinInput === "probashi2024") {
-      setIsAuthenticated(true);
-      localStorage.setItem("probashi_admin_auth", "true");
-      setPinError("");
-      fetchLeads();
-    } else {
-      setPinError("ভুল পিন নম্বর! আবার চেষ্টা করুন (ডিফল্ট পিন: 1971)");
+    if (!pinInput.trim()) {
+      setPinError("অনুগ্রহ করে পিন নম্বর প্রবেশ করান।");
+      return;
+    }
+
+    setSubmittingPin(true);
+    setPinError("");
+
+    try {
+      const res = await fetch("/api/admin/verify", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin: pinInput }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success && data.token) {
+        setIsAuthenticated(true);
+        setAdminToken(data.token);
+        sessionStorage.setItem("probashi_admin_token", data.token);
+        setPinError("");
+        fetchLeads(data.token);
+      } else {
+        setPinError(data.message || "ভুল পিন নম্বর! আবার চেষ্টা করুন।");
+      }
+    } catch (err) {
+      setPinError("সার্ভারের সাথে যোগাযোগ করা যায়নি। পুনরায় চেষ্টা করুন।");
+    } finally {
+      setSubmittingPin(false);
     }
   };
 
   const handleLogout = () => {
     setIsAuthenticated(false);
+    setAdminToken("");
+    sessionStorage.removeItem("probashi_admin_token");
     localStorage.removeItem("probashi_admin_auth");
     setPinInput("");
   };
 
-  const fetchLeads = async () => {
+  const fetchLeads = async (activeToken?: string) => {
     setLoading(true);
+    const token = activeToken || adminToken || sessionStorage.getItem("probashi_admin_token") || "";
     try {
-      const res = await fetch("/api/leads");
+      const res = await fetch("/api/leads", {
+        headers: {
+          "x-admin-token": token,
+        },
+      });
       if (res.ok) {
         const data = await res.json();
         if (data.leads) {
           setLeads(data.leads);
         }
+      } else if (res.status === 401) {
+        handleLogout();
+        setPinError("অ্যাডমিন সেশনের মেয়াদ শেষ হয়েছে। পুনরায় লগইন করুন।");
       }
     } catch (e) {
       console.error("Error fetching leads", e);
@@ -95,10 +130,14 @@ export default function AdminDashboardPage() {
 
   const updateStatus = async (leadId: string, newStatus: string) => {
     setUpdatingId(leadId);
+    const token = adminToken || sessionStorage.getItem("probashi_admin_token") || "";
     try {
       const res = await fetch("/api/leads", {
         method: "PATCH",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          "x-admin-token": token,
+        },
         body: JSON.stringify({ lead_id: leadId, status: newStatus }),
       });
       if (res.ok) {
@@ -107,6 +146,9 @@ export default function AdminDashboardPage() {
             item.id === leadId ? { ...item, status: newStatus as any } : item
           )
         );
+      } else if (res.status === 401) {
+        handleLogout();
+        setPinError("সেশন শেষ। পুনরায় পিন দিয়ে লগইন করুন।");
       }
     } catch (e) {
       console.error("Error updating lead status", e);
@@ -177,13 +219,14 @@ export default function AdminDashboardPage() {
           <form onSubmit={handleLogin} className="space-y-4">
             <div>
               <label className="text-xs font-semibold text-slate-300 block mb-1.5">
-                অ্যাডমিন পিন কোড (Default PIN: 1971)
+                নিরাপদ অ্যাডমিন পিন কোড
               </label>
               <input
                 type="password"
                 value={pinInput}
+                disabled={submittingPin}
                 onChange={(e) => setPinInput(e.target.value)}
-                placeholder="পিন কোড লিখুন..."
+                placeholder="গোপন পিন কোড লিখুন..."
                 className="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white text-center text-lg tracking-widest focus:outline-none focus:border-emerald-500 transition"
                 autoFocus
               />
@@ -192,9 +235,10 @@ export default function AdminDashboardPage() {
 
             <button
               type="submit"
-              className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-950/40"
+              disabled={submittingPin}
+              className="w-full py-3 bg-emerald-600 hover:bg-emerald-500 disabled:opacity-50 text-white font-bold rounded-xl text-sm transition shadow-lg shadow-emerald-950/40"
             >
-              ড্যাশবোর্ডে প্রবেশ করুন
+              {submittingPin ? "যাচাই করা হচ্ছে..." : "ড্যাশবোর্ডে প্রবেশ করুন"}
             </button>
           </form>
 
@@ -226,7 +270,7 @@ export default function AdminDashboardPage() {
 
         <div className="flex items-center space-x-3">
           <button
-            onClick={fetchLeads}
+            onClick={() => fetchLeads()}
             disabled={loading}
             className="px-3.5 py-2 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-bold text-slate-200 flex items-center transition"
           >
