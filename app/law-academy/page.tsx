@@ -15,9 +15,44 @@ import {
 import GratuityCalculator from "@/components/GratuityCalculator";
 
 export const metadata: Metadata = {
-  title: "সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি হিসাব | Probashi Hub",
+  title: "সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি হিসাব | ধারা ৮৪, ৮৫ ও ৭৭ বিশ্লেষণ",
   description:
-    "সৌদি শ্রম আইনের ধারা ৮৪, ৮৫, ৭৭ ও ৮৩ এর বিশ্লেষণ। মিথ বনাম সত্য এবং রিয়েল-টাইম সার্ভিস বেনিফিট ক্যালকুলেটর।",
+    "সৌদি শ্রম আইনের ধারা ৮৪, ৮৫, ৭৭ ও ৮৩ এর নিখুঁত বিশ্লেষণ। সার্ভিস বেনিফিট ও গ্র্যাচুইটি হিসাব ক্যালকুলেটর, অন্যায় বরখাস্তের ক্ষতিপূরণ ও মিথ বনাম সত্য।",
+  keywords: [
+    "সৌদি শ্রম আইন",
+    "ধারা ৮৪ গ্র্যাচুইটি",
+    "ধারা ৮৫ পদত্যাগ গ্র্যাচুইটি",
+    "ধারা ৭৭ ক্ষতিপূরণ",
+    "Saudi Labor Law Article 84",
+    "গ্র্যাচুইটি ক্যালকুলেটর",
+    "সার্ভিস বেনিফিট হিসাব",
+    "মক্বাফাআত নেহায়াতুল খেদমত",
+  ],
+  alternates: {
+    canonical: "https://probashi-hub.vercel.app/law-academy",
+  },
+  openGraph: {
+    title: "সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি হিসাব | Probashi Hub",
+    description:
+      "ধারা ৮৪ ও ৮৫ অনুযায়ী চাকরি সমাপ্তি বনাম পদত্যাগে গ্র্যাচুইটি হিসাবের লাইভ ক্যালকুলেটর ও মিথ বনাম সত্য।",
+    url: "https://probashi-hub.vercel.app/law-academy",
+    type: "article",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Saudi Labor Law Academy and Gratuity Calculator",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি হিসাব",
+    description:
+      "সৌদি শ্রম আইন ধারা ৮৪ ও ৮৫ এর নিখুঁত ব্যাখ্যা ও লাইভ ক্যালকুলেটর।",
+    images: ["/og-image.png"],
+  },
 };
 
 const LAW_ARTICLES = [
@@ -89,8 +124,83 @@ const MYTH_VS_FACT = [
 ];
 
 export default function LawAcademyPage() {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Article",
+        "headline": "সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি হিসাব | ধারা ৮৪ ও ৮৫ বিশ্লেষণ",
+        "description": "সৌদি শ্রম আইনের ধারা ৮৪, ৮৫, ৭৭ ও ৮৩ এর নিখুঁত বিশ্লেষণ ও সার্ভিস বেনিফিট গ্র্যাচুইটি ক্যালকুলেটর।",
+        "author": {
+          "@type": "Organization",
+          "name": "Probashi Hub",
+          "url": "https://probashi-hub.vercel.app"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "Probashi Hub",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://probashi-hub.vercel.app/icon.svg"
+          }
+        },
+        "mainEntityOfPage": "https://probashi-hub.vercel.app/law-academy"
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "সৌদি শ্রম আইনের ধারা ৮৪ অনুযায়ী গ্র্যাচুইটি বা সার্ভিস বেনিফিটের নিয়ম কী?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "কোম্পানি বরখাস্ত করলে অথবা চুক্তির মেয়াদ পূর্ণ হলে প্রথম ৫ বছরের জন্য প্রতি বছর অর্ধেক মাসের মূল বেতন এবং পরবর্তী প্রতি বছরের জন্য এক মাসের পূর্ণ মূল বেতন পরিশোধ করতে হবে।"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "শ্রমিক নিজে পদত্যাগ করলে ধারা ৮৫ অনুযায়ী কত টাকা গ্র্যাচুইটি পাবে?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "২ বছরের কম চাকরিতে ০%, ২ থেকে ৫ বছর হলে এক তৃতীয়াংশ (৩৩.৩৩%), ৫ থেকে ১০ বছর হলে দুই তৃতীয়াংশ (৬৬.৬৬%) এবং ১০ বছরের বেশি হলে ১০০% পূর্ণ গ্র্যাচুইটি আইনত দিতে বাধ্য।"
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "বেতন বকেয়া থাকলে কি কফিলের অনুমতি ছাড়া কাফালা হওয়া যায়?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "হ্যাঁ, টানা ৩ মাস বেতন বকেয়া থাকলে সৌদি শ্রম মন্ত্রণালয় ও কিওয়া (Qiwa) পোর্টালে কফিলের কোনো প্রকার সম্মতি ছাড়াই নতুন কফিলে বদলি হওয়া যায়।"
+            }
+          }
+        ]
+      },
+      {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "হোম",
+            "item": "https://probashi-hub.vercel.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "শ্রম আইন একাডেমি",
+            "item": "https://probashi-hub.vercel.app/law-academy"
+          }
+        ]
+      }
+    ]
+  };
+
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       {/* Header */}
       <div className="text-center max-w-3xl mx-auto space-y-4">
         <div className="inline-flex items-center space-x-2 bg-saudi-900/60 border border-saudi-600/40 px-3.5 py-1.5 rounded-full text-xs font-semibold text-emerald-300">

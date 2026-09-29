@@ -43,6 +43,13 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
   return {
     title: `${category.name} (${category.en}) সেবা সমূহ | Probashi Hub`,
     description: `সৌদি আরবে ${category.name}-এর সরকারি সমাধান, আইনি নির্দেশিকা ও প্রয়োজনীয় নথিপত্র। ${category.description}`,
+    keywords: [
+      category.name,
+      category.en,
+      "সৌদি প্রবাসী সেবা",
+      "Saudi Arabia Expat Services",
+      "Probashi Hub",
+    ],
     alternates: {
       canonical: `${appUrl}/categories/${category.id}`,
     },
@@ -50,6 +57,21 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
       title: `${category.name} | Probashi Hub KSA`,
       description: category.description,
       url: `${appUrl}/categories/${category.id}`,
+      type: "website",
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: `${category.name} - Probashi Hub`,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${category.name} | Probashi Hub`,
+      description: category.description,
+      images: ["/og-image.png"],
     },
   };
 }

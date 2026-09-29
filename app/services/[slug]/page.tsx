@@ -45,6 +45,20 @@ export async function generateMetadata({ params }: ServicePageProps): Promise<Me
       description: problem.summary,
       url: `${appUrl}/services/${problem.slug}`,
       type: "article",
+      images: [
+        {
+          url: "/og-image.png",
+          width: 1200,
+          height: 630,
+          alt: problem.title,
+        },
+      ],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title: `${problem.title} | Probashi Hub`,
+      description: problem.summary,
+      images: ["/og-image.png"],
     },
     alternates: {
       canonical: `${appUrl}/services/${problem.slug}`,

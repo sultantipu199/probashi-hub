@@ -46,12 +46,32 @@ export const metadata: Metadata = {
     siteName: "Probashi Hub",
     locale: "bn_BD",
     type: "website",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Probashi Hub - Saudi Arabia Expat One-Stop Legal & Services Portal",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
     title: "Probashi Hub | সৌদি প্রবাসী ওয়ান-স্টপ হাব",
     description:
       "ইকামা, কাফালা, কিওয়া ও শ্রম আইন সমাধান এক ক্লিকে। শতভাগ নির্ভরযোগ্য নির্দেশিকা।",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
   alternates: {
     canonical: "https://probashi-hub.vercel.app",
@@ -94,9 +114,64 @@ export default function RootLayout({
         "name": "Probashi Hub",
         "url": "https://probashi-hub.vercel.app",
         "logo": "https://probashi-hub.vercel.app/icon.svg",
+        "image": "https://probashi-hub.vercel.app/og-image.png",
         "sameAs": [
           "https://facebook.com/probashihub",
           "https://youtube.com/@probashihub"
+        ],
+        "contactPoint": [
+          {
+            "@type": "ContactPoint",
+            "telephone": "999",
+            "contactType": "emergency",
+            "areaServed": "SA",
+            "availableLanguage": ["Arabic", "English", "Bengali"]
+          },
+          {
+            "@type": "ContactPoint",
+            "telephone": "19911",
+            "contactType": "customer service",
+            "contactOption": "TollFree",
+            "areaServed": "SA",
+            "availableLanguage": ["Arabic", "English", "Bengali"]
+          }
+        ]
+      },
+      {
+        "@type": "ItemList",
+        "@id": "https://probashi-hub.vercel.app/#sitenavigation",
+        "name": "Probashi Hub Primary Services & Tools",
+        "itemListElement": [
+          {
+            "@type": "SiteNavigationElement",
+            "position": 1,
+            "name": "জরুরি এসওএস ও হটলাইন",
+            "url": "https://probashi-hub.vercel.app/urgent-sos"
+          },
+          {
+            "@type": "SiteNavigationElement",
+            "position": 2,
+            "name": "সৌদি শ্রম আইন একাডেমি ও গ্র্যাচুইটি হিসাব",
+            "url": "https://probashi-hub.vercel.app/law-academy"
+          },
+          {
+            "@type": "SiteNavigationElement",
+            "position": 3,
+            "name": "ইকামা ও মক্তব আমল ফি ক্যালকুলেটর",
+            "url": "https://probashi-hub.vercel.app/iqama-fee-calculator"
+          },
+          {
+            "@type": "SiteNavigationElement",
+            "position": 4,
+            "name": "দাল্লাহ ড্রাইভিং লাইসেন্স কম্পিউটার টেস্ট",
+            "url": "https://probashi-hub.vercel.app/driving-license-test"
+          },
+          {
+            "@type": "SiteNavigationElement",
+            "position": 5,
+            "name": "আরবি মক্তব আমল দরখাস্ত জেনারেটর",
+            "url": "https://probashi-hub.vercel.app/arabic-letter-generator"
+          }
         ]
       }
     ]
@@ -105,6 +180,12 @@ export default function RootLayout({
   return (
     <html lang="bn" className={inter.variable}>
       <head>
+        <link
+          rel="alternate"
+          type="application/rss+xml"
+          title="Probashi Hub (সৌদি প্রবাসী ওয়ান-স্টপ হাব) RSS Feed"
+          href="/feed.xml"
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
