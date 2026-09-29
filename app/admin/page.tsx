@@ -344,7 +344,7 @@ export default function AdminDashboardPage() {
           <div className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl">
             <span className="text-slate-400 block mb-1 font-medium">১. অটো ফাইল ভেরিফিকেশন (HTML File):</span>
             <span className="text-emerald-400 font-semibold font-mono text-[11px]">Dynamic /google*.html সক্রিয়</span>
-            <p className="text-[10px] text-slate-500 mt-1">Google Console-এ 'HTML file' অপশন রেখে সরাসরি Verify বাটনে ক্লিক করুন।</p>
+            <p className="text-[10px] text-slate-500 mt-1">Google Console-এ &apos;HTML file&apos; অপশন রেখে সরাসরি Verify বাটনে ক্লিক করুন।</p>
           </div>
           <div className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl">
             <span className="text-slate-400 block mb-1 font-medium">২. HTML Meta Tag ভেরিফিকেশন:</span>
@@ -354,7 +354,7 @@ export default function AdminDashboardPage() {
           <div className="p-3 bg-slate-950/60 border border-slate-800/80 rounded-xl">
             <span className="text-slate-400 block mb-1 font-medium">৩. সাইটম্যাপ ইনডেক্সিং:</span>
             <span className="text-slate-300 font-mono text-[11px]">https://probashi-hub.vercel.app/sitemap.xml</span>
-            <p className="text-[10px] text-slate-500 mt-1">ভেরিফিকেশনের পর 'Sitemaps' মেনুতে গিয়ে sitemap.xml সাবমিট করুন।</p>
+            <p className="text-[10px] text-slate-500 mt-1">ভেরিফিকেশনের পর &apos;Sitemaps&apos; মেনুতে গিয়ে sitemap.xml সাবমিট করুন।</p>
           </div>
         </div>
       </div>
