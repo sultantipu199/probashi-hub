@@ -20,6 +20,10 @@ endpoints = [
     'https://probashi-hub.vercel.app/arabic-letter-generator',
     'https://probashi-hub.vercel.app/iqama-fee-calculator',
     'https://probashi-hub.vercel.app/driving-license-test',
+    'https://probashi-hub.vercel.app/advertise',
+    'https://probashi-hub.vercel.app/ads.txt',
+    'https://probashi-hub.vercel.app/feed.xml',
+    'https://probashi-hub.vercel.app/og-image.png',
     'https://probashi-hub.vercel.app/admin',
 ]
 

@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { PhoneCall, ShieldAlert, FileText, Scale, Menu, X, ArrowUpRight, TrendingUp, Calculator, Car } from "lucide-react";
+import { PhoneCall, ShieldAlert, FileText, Scale, Menu, X, ArrowUpRight, TrendingUp, Calculator, Car, Megaphone } from "lucide-react";
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -117,6 +117,12 @@ export default function Navbar() {
                 <FileText className="w-3.5 h-3.5 mr-1 text-amber-400" />
                 আরবি দরখাস্ত
               </Link>
+              <Link
+                href="/advertise"
+                className="flex items-center px-2.5 py-1.5 rounded-lg font-medium text-amber-300 hover:text-amber-200 hover:bg-slate-800/60 transition"
+              >
+                বিজ্ঞাপন
+              </Link>
             </div>
 
             {/* Emergency SOS Quick-Badge Action */}
@@ -183,6 +189,14 @@ export default function Navbar() {
             >
               <FileText className="w-5 h-5 mr-2 text-amber-400" />
               আরবি দরখাস্ত মেকার
+            </Link>
+            <Link
+              href="/advertise"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center px-3 py-2.5 rounded-lg text-base font-semibold text-amber-300 hover:bg-slate-800"
+            >
+              <Megaphone className="w-5 h-5 mr-2 text-amber-400" />
+              বিজ্ঞাপন ও স্পন্সরশিপ
             </Link>
             <Link
               href="/urgent-sos"
